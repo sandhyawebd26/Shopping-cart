@@ -4,41 +4,31 @@ import Footer from "../Footer/Footer";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
 
-
 function Cart() {
-
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const {
-    isEmpty,
-    totalUniqueItems,
-    items,
-    updateItemQuantity,
-    removeItem,
-  } = useCart();
+  const { isEmpty, totalUniqueItems, items, updateItemQuantity, removeItem } =
+    useCart();
 
-  
+  // Function to update the quantity of an item in the cart
+  const handleUpdateQuantity = (itemId, quantity) => {
+    updateItemQuantity(itemId, quantity);
+  };
 
-    // Function to update the quantity of an item in the cart
-    const handleUpdateQuantity = (itemId, quantity) => {
-      updateItemQuantity(itemId, quantity);
-    };
-  
-    // Function to remove an item from the cart
-    const handleRemoveItem = (itemId) => {
-      removeItem(itemId);
-    };
-     console.log(items)
+  // Function to remove an item from the cart
+  const handleRemoveItem = (itemId) => {
+    removeItem(itemId);
+  };
+  console.log(items);
 
   return (
     <>
-     <Header/>
+      <Header />
       <div className="bg-light py-3">
         <div className="container">
           <div className="row">
-        
             <div className="col-md-12 mb-0">
               <a href="index.html">Home</a> <span className="mx-2 mb-0">/</span>{" "}
               <strong className="text-black">Cart</strong>
@@ -63,67 +53,73 @@ function Cart() {
                     </tr>
                   </thead>
                   <tbody>
-                  {items.map((item , index) => (
-                    <tr>
-                   
-         
-                      <td className="product-thumbnail">
-                        <img
-                          src={`http://localhost:4500/api/v1/uploads/${item.image}`}
-                          alt="Image"
-                          className="img-fluid"
-                        />
-                      </td>
-                      <td className="product-name">
-                        <h2 className="h5 text-black">{item.productName}</h2>
-                      </td>
-                      <td>${item.price}</td>
-                      <td>
-                        <div
-                          className="input-group mb-3"
-                          style={{ maxWidth: 120 }}
-                        >
-                          <div className="input-group-prepend">
-                            <button
-                              className="btn btn-outline-primary js-btn-minus"
-                              type="button"
-                              onClick={() =>
-                                handleUpdateQuantity(item.id, item.quantity - 1)
-                              }
-
-                            >
-                              −
-                            </button>
-                          </div>
-                          <input
-                            type="text"
-                            className="form-control text-center"
-                            placeholder=""
-                            aria-label="Example text with button addon"
-                            aria-describedby="button-addon1"
-                            defaultValue={item.quantity}
-                            value={item.quantity}
+                    {items.map((item, index) => (
+                      <tr>
+                        <td className="product-thumbnail">
+                          <img
+                            src={`http://localhost:4500/api/v1/uploads/${item.image}`}
+                            alt="Image"
+                            className="img-fluid"
                           />
-                          <div className="input-group-append">
-                            <button
-                              className="btn btn-outline-primary js-btn-plus"
-                              type="button"
-                              onClick={() =>
-                                handleUpdateQuantity(item.id, item.quantity + 1)
-                              }
-                            >
-                              +
-                            </button>
+                        </td>
+                        <td className="product-name">
+                          <h2 className="h5 text-black">{item.productName}</h2>
+                        </td>
+                        <td>${item.price}</td>
+                        <td>
+                          <div
+                            className="input-group mb-3"
+                            style={{ maxWidth: 120 }}
+                          >
+                            <div className="input-group-prepend">
+                              <button
+                                className="btn btn-outline-primary js-btn-minus"
+                                type="button"
+                                onClick={() =>
+                                  handleUpdateQuantity(
+                                    item.id,
+                                    item.quantity - 1
+                                  )
+                                }
+                              >
+                                −
+                              </button>
+                            </div>
+                            <input
+                              type="text"
+                              className="form-control text-center"
+                              placeholder=""
+                              aria-label="Example text with button addon"
+                              aria-describedby="button-addon1"
+                              defaultValue={item.quantity}
+                              value={item.quantity}
+                            />
+                            <div className="input-group-append">
+                              <button
+                                className="btn btn-outline-primary js-btn-plus"
+                                type="button"
+                                onClick={() =>
+                                  handleUpdateQuantity(
+                                    item.id,
+                                    item.quantity + 1
+                                  )
+                                }
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>${item.quantity * item.price}</td>
-                      <td>
-                        <button className="btn btn-primary btn-sm"    onClick={() => handleRemoveItem(item.id)}>
-                          X
-                        </button>
-                      </td>
-                    </tr>
+                        </td>
+                        <td>${item.quantity * item.price}</td>
+                        <td>
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() => handleRemoveItem(item.id)}
+                          >
+                            X
+                          </button>
+                        </td>
+                      </tr>
                     ))}
                   </tbody>
                 </table>
@@ -139,7 +135,10 @@ function Cart() {
                   </button>
                 </div>
                 <div className="col-md-6">
-                  <button className="btn btn-outline-primary btn-sm btn-block">
+                  <button
+                    className="btn btn-outline-primary btn-sm btn-block"
+                    onClick={() => navigate("/Shop")}
+                  >
                     Continue Shopping
                   </button>
                 </div>
@@ -181,7 +180,13 @@ function Cart() {
                       <span className="text-black">Subtotal</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">$230.00</strong>
+                      <strong className="text-black">
+                        ${" "}
+                        {items.reduce(
+                          (total, item) => total + item.price * item.quantity,
+                          0
+                        )}
+                      </strong>
                     </div>
                   </div>
                   <div className="row mb-5">
@@ -189,14 +194,20 @@ function Cart() {
                       <span className="text-black">Total</span>
                     </div>
                     <div className="col-md-6 text-right">
-                      <strong className="text-black">$230.00</strong>
+                      <strong className="text-black">
+                        $
+                        {items.reduce(
+                          (total, item) => total + item.price * item.quantity,
+                          0
+                        )}
+                      </strong>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-12">
                       <button
                         className="btn btn-primary btn-lg py-3 btn-block"
-                        onClick={()=>navigate("/Checkout")}
+                        onClick={() => navigate("/Checkout")}
                       >
                         Proceed To Checkout
                       </button>
@@ -208,7 +219,7 @@ function Cart() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

@@ -33,6 +33,7 @@ function Header() {
                         <span className="icon icon-person" />
                       </Link>
                     </li>
+                   
                     <li>
                       <Link to="#">
                         <span className="icon icon-heart-o" />
@@ -48,6 +49,15 @@ function Header() {
                       <Link to="#" className="site-menu-toggle js-menu-toggle">
                         <span className="icon-menu" />
                       </Link>
+                    </li>
+                    <li>
+                      <Link to="/Signin">
+                        <button className="btn btn-success">Signin</button>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/Signup">
+                      <button className="btn btn-primary">Signup</button>                      </Link>
                     </li>
                   </ul>
                 </div>

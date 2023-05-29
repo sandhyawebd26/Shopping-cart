@@ -10,10 +10,6 @@ const registerSchema = Joi.object({
   lastname: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required().label("Password"),
-  confirmPassword: Joi.any()
-    .required()
-    .label("Confirm password")
-    .messages({ "any.only": "{{#label}} does not match" }),
   age: Joi.number().required(),
   phone: Joi.string()
     .length(10)
@@ -33,3 +29,6 @@ router.post(
 );
 
 router.post("/login", validator.body(loginSchema), authController.postLogin);
+
+
+module.exports= router;

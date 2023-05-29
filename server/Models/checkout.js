@@ -32,7 +32,7 @@ const checkoutSchema = new mongoose.Schema(
         },
         pin:{
             type: Number,
-            required: true
+            required: false
 
         },
         email:{
@@ -45,18 +45,18 @@ const checkoutSchema = new mongoose.Schema(
         },
         orderNotes:{
             type: String,
-            required: true
+            required: false
         },
         coupenCode:{
             type: Number,
-            required: true
+            required: false
         },
-        cartId:[{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Cart",
-            required: true
-        }
-    ]
+    //     cartId:[{
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Cart",
+    //         required: true
+    //     }
+    // ]
 
     }
 )

@@ -9,6 +9,8 @@ import ShopSingle from "./Component/Shop/ShopSingle";
 import { CartProvider } from "react-use-cart";
 import Checkout from "./Component/Checkout/Chekcout";
 import Thankyou from './Component/Thankyou/thankyou';
+import Signup from './Component/Signup/Signup';
+import Signin from './Component/Signin/Signin';
 
 function App() {
   const MyContext = createContext();
@@ -26,6 +28,9 @@ function App() {
           <Route exact path="/Cart" element={<Cart />} />
           <Route exact path="/Checkout" element={<Checkout />} />
           <Route exact path="/Thankyou" element={<Thankyou />} />
+          <Route exact path="/Signup" element={<Signup />} />
+          <Route exact path="/Signin" element={<Signin />} />
+
 
         </Routes>
       </BrowserRouter>

@@ -1,11 +1,14 @@
 import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
-function thankyou() {
+function Thankyou() {
+  const navigate = useNavigate();
+
   return (
     <>
-    <   Header/>
+      <Header />
       <div className="bg-light py-3">
         <div className="container">
           <div className="row">
@@ -24,17 +27,20 @@ function thankyou() {
               <h2 className="display-3 text-black">Thank you!</h2>
               <p className="lead mb-5">You order was successfuly completed.</p>
               <p>
-                <a href="shop.html" className="btn btn-sm btn-primary">
+                <button
+                  onClick={() => navigate("/Shop")}
+                  className="btn btn-sm btn-primary"
+                >
                   Back to shop
-                </a>
+                </button>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
 
-export default thankyou;
+export default Thankyou;
