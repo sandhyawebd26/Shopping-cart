@@ -1,9 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "react-use-cart";
 
 function Header() {
+
+  const { items}= useCart();
+  // console.log("sasjkdnskj", items.length)
+  const navigate = useNavigate();
+
+  let user = localStorage.getItem("user_token");
+  let parsedToken = null;
+  let userId = null;
+
+  try {
+    // Parse the JSON string token if it exists
+    if (user) {
+      parsedToken = JSON.parse(user);
+    }
+  } catch (error) {
+    console.error("Error parsing token:", error);
+  }
+
+  function logOut() {
+    localStorage.clear("user_token", "user_id");
+    navigate("/Signin");
+  }
+
   return (
-    <>   
+    <>
       <header className="site-navbar" role="banner">
         <div className="site-navbar-top">
           <div className="container">
@@ -33,7 +59,6 @@ function Header() {
                         <span className="icon icon-person" />
                       </Link>
                     </li>
-                   
                     <li>
                       <Link to="#">
                         <span className="icon icon-heart-o" />
@@ -42,7 +67,7 @@ function Header() {
                     <li>
                       <Link to="/Cart" className="site-cart">
                         <span className="icon icon-shopping_cart" />
-                        <span className="count">2</span>
+                        <span className="count">{items.length}</span>
                       </Link>
                     </li>
                     <li className="d-inline-block d-md-none ml-md-0">
@@ -50,15 +75,28 @@ function Header() {
                         <span className="icon-menu" />
                       </Link>
                     </li>
-                    <li>
-                      <Link to="/Signin">
-                        <button className="btn btn-success">Signin</button>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/Signup">
-                      <button className="btn btn-primary">Signup</button>                      </Link>
-                    </li>
+                    {localStorage.getItem("user_token") ? (
+                      <li>
+                        <Link to="/Signin">
+                          <span className="" onClick={logOut}>
+                            <RiLogoutBoxRLine />
+                          </span>
+                        </Link>
+                      </li>
+                    ) : (
+                      <>
+                        <li>
+                          <Link to="/Signin">
+                            <button className="btn btn-success">Signin</button>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/Signup">
+                            <button className="btn btn-primary">Signup</button>{" "}
+                          </Link>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -129,7 +167,7 @@ function Header() {
                 </ul>
               </li>
               <li className="has-children">
-                <Link to="/About" >About</Link>
+                <Link to="/About">About</Link>
                 <ul className="dropdown">
                   <li>
                     <a href="#">Menu One</a>
@@ -143,7 +181,7 @@ function Header() {
                 </ul>
               </li>
               <li>
-                <Link to="/Shop" >Shop</Link>
+                <Link to="/Shop">Shop</Link>
               </li>
               <li>
                 <a href="#">Catalogue</a>
@@ -158,7 +196,6 @@ function Header() {
           </div>
         </nav>
       </header>
-   
     </>
   );
 }

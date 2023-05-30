@@ -7,7 +7,8 @@ const categoryRoute= require("./Routes/categoryRoute");
 const productRoute=require("./Routes/productRoute");
 const cartRoute=require('./Routes/cartRoute');
 const checkoutRoute = require('./Routes/checkoutRoute');
-const authRoute= require('./Routes/authRoute')
+const authRoute= require('./Routes/authRoute');
+const { error } = require("console");
 
 
 connectDB();
@@ -28,7 +29,6 @@ app.use("/api", cartRoute);
 app.use("/api", checkoutRoute);
 
 app.use("/api", authRoute);
-
 
 
 app.listen(4500, () => {

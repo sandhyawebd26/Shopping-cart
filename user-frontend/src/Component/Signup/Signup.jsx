@@ -113,7 +113,7 @@ export default function SignInSide() {
                   fullWidth
                   name="firstname"
                   value={data.firstname}
-                  label=" Name"
+                  label="First Name"
                   type="text"
                   id="name"
                   autoComplete="current-name"
@@ -125,7 +125,7 @@ export default function SignInSide() {
                   fullWidth
                   name="lastname"
                   value={data.lastname}
-                  label=" Name"
+                  label=" Last Name"
                   type="text"
                   id="name"
                   autoComplete="current-name"
@@ -163,7 +163,7 @@ export default function SignInSide() {
                   fullWidth
                   name="phone"
                   value={data.phone}
-                  label="phone"
+                  label="Phone"
                   type="phone"
                   id="phone"
                   autoComplete="current-phone"
@@ -175,7 +175,7 @@ export default function SignInSide() {
                   fullWidth
                   name="age"
                   value={data.age}
-                  label="age"
+                  label="Age"
                   type="age"
                   id="age"
                   autoComplete=""
