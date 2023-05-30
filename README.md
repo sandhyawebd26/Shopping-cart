@@ -1,8 +1,8 @@
-# Shopping-cart
+ Shopping-cart
 This is an E-commerce website where users can add products to their shopping cart. The website allows users to browse through a variety of products,
 add them to the cart, and proceed to checkout.
 
-# Features -->
+ Features -->
 User registration and authentication
 Product listing and details
 Add products to the cart
@@ -12,7 +12,7 @@ Proceed to checkout
 Provide shipping and billing information
 Place an order
 
-# Technologies Used
+ Technologies Used-->
 React.js: Front-end development
 Node.js: Back-end development
 Express.js: Web application framework
@@ -22,7 +22,7 @@ React Router: Navigation and routing within the React application
 Axios: HTTP client for making API requests
 Bootstrap: CSS framework for styling the application
 
-# Getting Started
+Getting Started-->
 To run the shopping cart application locally, follow these steps:
 
 1. Clone the repository: 
