@@ -15,7 +15,7 @@ function Checkout() {
   const handlePayment = async (value) => {
     const res = await axios.post(
       "http://localhost:4500/api/create-checkout-session",
-      
+
       {
         userId: userId,
         amount: cartTotal,
@@ -26,7 +26,6 @@ function Checkout() {
         },
       }
     );
-   
 
     if (res.data.url) {
       window.location.href = res.data.url;
@@ -286,7 +285,7 @@ function Checkout() {
                       </div>
                     </div>
                   </div>
-                
+
                   <div className="form-group">
                     <label htmlFor="c_order_notes" className="text-black">
                       Order Notes
@@ -440,7 +439,8 @@ function Checkout() {
                         <button
                           type="submit"
                           className="btn btn-primary btn-lg py-3 btn-block"
-                          onClick={handlePayment}                        >
+                          onClick={handlePayment}
+                        >
                           Place Order
                         </button>
                       </div>
