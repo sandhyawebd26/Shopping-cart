@@ -11,6 +11,7 @@ import Checkout from "./Component/Checkout/Chekcout";
 import Thankyou from './Component/Thankyou/thankyou';
 import Signup from './Component/Signup/Signup';
 import Signin from './Component/Signin/Signin';
+import FindProductByCategory from './Component/Shop/productByCat';
 
 function App() {
   const MyContext = createContext();
@@ -23,7 +24,8 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/About" element={<About />} />
           <Route exact path="/Shop" element={<Shop />} />
-          <Route exact path="/ShopSingle/:id" element={<ShopSingle />} />
+          <Route exact path="/Shop/productbycat/:id" element={<FindProductByCategory />} />
+          <Route exact path="/Shopsingle/:id" element={<ShopSingle />} />
           <Route exact path="/Contact" element={<Contact />} />
           <Route exact path="/Cart" element={<Cart />} />
           <Route exact path="/Checkout" element={<Checkout />} />

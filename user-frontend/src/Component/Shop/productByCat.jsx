@@ -5,48 +5,36 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function Shop() {
+function FindProductByCategory() {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [pro, setPro] = useState([]);
 
-  const handleButtonClick = () => {
-    navigate("/ShopSingle");
-  };
-
-  //fetch all products
   useEffect(() => {
-    const fetchProducts = async () => {
+    const FetchProByCat = async () => {
       try {
-        const response = await axios.get("http://localhost:4500/api/get");
-
-        setProducts(response.data.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-  // console.log(products);
-
-  //fetch all cats
-  useEffect(() => {
-    const fetchCats = async () => {
-      try {
-        const res = await axios.get("http://localhost:4500/api/get-category");
-        // console.log("first", res.data.categories);
-        setCategories(res.data.categories);
+        const res = await axios.get(`http://localhost:4500/api/getcat/${id}`);
+        console.log("DATAA=>", res.data);
+        setPro(res.data.category.productId);
       } catch (err) {
-        console.log("Error fetching categories", err);
+        console.log("Error fetching Products", err);
       }
     };
-
+    FetchProByCat();
     fetchCats();
-  }, []);
+  }, [id]);
+//   console.log(pro);
 
+  const fetchCats = async () => {
+    try {
+      const res = await axios.get("http://localhost:4500/api/get-category");
+      console.log("first", res.data.categories);
+      setCategories(res.data.categories);
+    } catch (err) {
+      console.log("Error fetching categories", err);
+    }
+  };
   return (
     <>
       <Header />
@@ -54,7 +42,7 @@ function Shop() {
         <div className="container">
           <div className="row">
             <div className="col-md-12 mb-0">
-              <a href="index.html">Home</a> <span className="mx-2 mb-0">/</span>{" "}
+              <a href="index.html">Home</a> <span className="mx-2 mb-0">/</span>
               <strong className="text-black">Shop</strong>
             </div>
           </div>
@@ -131,38 +119,39 @@ function Shop() {
                 </div>
               </div>
               <div className="row mb-5">
-                {products.map((d, index) => {
-                  // console.log("D=>", d);
-                  return (
-                    <div
-                      className="col-sm-6 col-lg-4 mb-4"
-                      data-aos="fade-up"
-                      key={index}
-                      onClick={() => navigate(`/ShopSingle/${d._id}`)}
-                    >
-                      <div className="block-4 text-center border">
-                        <figure className="block-4-image">
-                          <Link to="/Shopsingle">
-                            <img
-                              src={`http://localhost:4500/api/v1/uploads/${d.image}`}
-                              alt="Image placeholder"
-                              className="img-fluid"
-                            />
-                          </Link>
-                        </figure>
-                        <div className="block-4-text p-4">
-                          <h3>
-                            <Link to="/Shopsingle">{d?.productName}</Link>
-                          </h3>
-                          <p className="mb-0">{d.description}</p>
-                          <p className="text-primary font-weight-bold">
-                            ${d.price}
-                          </p>
+                {pro?.length &&
+                  pro?.map((d, index) => {
+                    // console.log("D=>", d);
+                    return (
+                      <div
+                        className="col-sm-6 col-lg-4 mb-4"
+                        data-aos="fade-up"
+                        key={index}
+                        onClick={() => navigate(`/ShopSingle/${d._id}`)}
+                      >
+                        <div className="block-4 text-center border">
+                          <figure className="block-4-image">
+                            <Link to="/Shopsingle">
+                              <img
+                                src={`http://localhost:4500/api/v1/uploads/${d.image}`}
+                                alt="Image placeholder"
+                                className="img-fluid"
+                              />
+                            </Link>
+                          </figure>
+                          <div className="block-4-text p-4">
+                            <h3>
+                              <Link to="/Shopsingle">{d?.productName}</Link>
+                            </h3>
+                            <p className="mb-0">{d.description}</p>
+                            <p className="text-primary font-weight-bold">
+                              ${d.price}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
 
               <div className="row" data-aos="fade-up">
@@ -204,7 +193,7 @@ function Shop() {
                 <ul className="list-unstyled mb-0">
                   <li className="mb-1">
                     <a href="#" className="d-flex">
-                      <span>Men</span>{" "}
+                      <span>Men</span>
                       <span className="text-black ml-auto">
                         ( {categories[0]?.productId?.length})
                       </span>
@@ -212,7 +201,7 @@ function Shop() {
                   </li>
                   <li className="mb-1">
                     <a href="#" className="d-flex">
-                      <span>Women</span>{" "}
+                      <span>Women</span>
                       <span className="text-black ml-auto">
                         ({categories[1]?.productId?.length})
                       </span>
@@ -220,7 +209,7 @@ function Shop() {
                   </li>
                   <li className="mb-1">
                     <a href="#" className="d-flex">
-                      <span>Children</span>{" "}
+                      <span>Children</span>
                       <span className="text-black ml-auto">
                         ({categories[2]?.productId?.length})
                       </span>
@@ -247,15 +236,15 @@ function Shop() {
                     Size
                   </h3>
                   <label htmlFor="s_sm" className="d-flex">
-                    <input type="checkbox" id="s_sm" className="mr-2 mt-1" />{" "}
+                    <input type="checkbox" id="s_sm" className="mr-2 mt-1" />
                     <span className="text-black">Small (2,319)</span>
                   </label>
                   <label htmlFor="s_md" className="d-flex">
-                    <input type="checkbox" id="s_md" className="mr-2 mt-1" />{" "}
+                    <input type="checkbox" id="s_md" className="mr-2 mt-1" />
                     <span className="text-black">Medium (1,282)</span>
                   </label>
                   <label htmlFor="s_lg" className="d-flex">
-                    <input type="checkbox" id="s_lg" className="mr-2 mt-1" />{" "}
+                    <input type="checkbox" id="s_lg" className="mr-2 mt-1" />
                     <span className="text-black">Large (1,392)</span>
                   </label>
                 </div>
@@ -264,19 +253,19 @@ function Shop() {
                     Color
                   </h3>
                   <a href="#" className="d-flex color-item align-items-center">
-                    <span className="bg-danger color d-inline-block rounded-circle mr-2" />{" "}
+                    <span className="bg-danger color d-inline-block rounded-circle mr-2" />
                     <span className="text-black">Red (2,429)</span>
                   </a>
                   <a href="#" className="d-flex color-item align-items-center">
-                    <span className="bg-success color d-inline-block rounded-circle mr-2" />{" "}
+                    <span className="bg-success color d-inline-block rounded-circle mr-2" />
                     <span className="text-black">Green (2,298)</span>
                   </a>
                   <a href="#" className="d-flex color-item align-items-center">
-                    <span className="bg-info color d-inline-block rounded-circle mr-2" />{" "}
+                    <span className="bg-info color d-inline-block rounded-circle mr-2" />
                     <span className="text-black">Blue (1,075)</span>
                   </a>
                   <a href="#" className="d-flex color-item align-items-center">
-                    <span className="bg-primary color d-inline-block rounded-circle mr-2" />{" "}
+                    <span className="bg-primary color d-inline-block rounded-circle mr-2" />
                     <span className="text-black">Purple (1,075)</span>
                   </a>
                 </div>
@@ -360,4 +349,4 @@ function Shop() {
   );
 }
 
-export default Shop;
+export default FindProductByCategory;

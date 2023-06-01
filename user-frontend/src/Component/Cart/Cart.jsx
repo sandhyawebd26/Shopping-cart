@@ -52,8 +52,8 @@ function Cart() {
                     </thead>
                     <tbody>
                       {items.map((item, index) => (
-                        <tr>
-                          <td className="product-thumbnail" key={item.index}>
+                        <tr key={item.index}>
+                          <td className="product-thumbnail">
                             <img
                               src={`http://localhost:4500/api/v1/uploads/${item.image}`}
                               alt="Image"

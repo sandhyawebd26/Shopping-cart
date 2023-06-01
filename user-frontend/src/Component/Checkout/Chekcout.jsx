@@ -2,14 +2,36 @@ import React, { useState } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "react-use-cart";
-
 
 function Checkout() {
   const { items, cartTotal } = useCart();
+  const userId = localStorage.getItem("user_id");
+  const token = localStorage.getItem("user_token");
 
   const navigate = useNavigate();
+
+  const handlePayment = async (value) => {
+    const res = await axios.post(
+      "http://localhost:4500/api/create-checkout-session",
+      
+      {
+        userId: userId,
+        amount: cartTotal,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+   
+
+    if (res.data.url) {
+      window.location.href = res.data.url;
+    }
+  };
 
   const [country, setCountry] = useState([
     "america",
@@ -48,8 +70,10 @@ function Checkout() {
     e.preventDefault();
 
     try {
-   
-      await axios.post("http://localhost:4500/api/checkout", data);
+      await axios.post("http://localhost:4500/api/checkout", {
+        data,
+        items: items,
+      });
       navigate("/Thankyou");
       alert("Success");
     } catch (err) {
@@ -134,7 +158,7 @@ function Checkout() {
                   <div className="form-group row">
                     <div className="col-md-12">
                       <label htmlFor="c_companyname" className="text-black">
-                        Company Name{" "}
+                        Company Name
                       </label>
                       <input
                         type="text"
@@ -234,7 +258,7 @@ function Checkout() {
                         type="checkbox"
                         defaultValue={1}
                         id="c_create_account"
-                      />{" "}
+                      />
                       Create an account?
                     </label>
                     <div className="collapse" id="create_an_account">
@@ -262,180 +286,7 @@ function Checkout() {
                       </div>
                     </div>
                   </div>
-                  <div className="form-group">
-                    <label
-                      htmlFor="c_ship_different_address"
-                      className="text-black"
-                      data-toggle="collapse"
-                      href="#ship_different_address"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="ship_different_address"
-                    >
-                      <input
-                        type="checkbox"
-                        defaultValue={1}
-                        id="c_ship_different_address"
-                      />{" "}
-                      Ship To A Different Address?
-                    </label>
-                    <div className="collapse" id="ship_different_address">
-                      <div className="py-2">
-                        <div className="form-group">
-                          <label
-                            htmlFor="c_diff_country"
-                            className="text-black"
-                          >
-                            Country <span className="text-danger">*</span>
-                          </label>
-                          <select id="c_diff_country" className="form-control">
-                            <option value={1}>Select a country</option>
-                            <option value={2}>bangladesh</option>
-                            <option value={3}>Algeria</option>
-                            <option value={4}>Afghanistan</option>
-                            <option value={5}>Ghana</option>
-                            <option value={6}>Albania</option>
-                            <option value={7}>Bahrain</option>
-                            <option value={8}>Colombia</option>
-                            <option value={9}>Dominican Republic</option>
-                          </select>
-                        </div>
-                        <div className="form-group row">
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_fname"
-                              className="text-black"
-                            >
-                              First Name <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_fname"
-                              name="c_diff_fname"
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_lname"
-                              className="text-black"
-                            >
-                              Last Name <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_lname"
-                              name="c_diff_lname"
-                            />
-                          </div>
-                        </div>
-                        <div className="form-group row">
-                          <div className="col-md-12">
-                            <label
-                              htmlFor="c_diff_companyname"
-                              className="text-black"
-                            >
-                              Company Name{" "}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_companyname"
-                              name="c_diff_companyname"
-                            />
-                          </div>
-                        </div>
-                        <div className="form-group row">
-                          <div className="col-md-12">
-                            <label
-                              htmlFor="c_diff_address"
-                              className="text-black"
-                            >
-                              Address <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_address"
-                              name="c_diff_address"
-                              placeholder="Street address"
-                            />
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Apartment, suite, unit etc. (optional)"
-                          />
-                        </div>
-                        <div className="form-group row">
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_state_country"
-                              className="text-black"
-                            >
-                              State / Country{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_state_country"
-                              name="c_diff_state_country"
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_postal_zip"
-                              className="text-black"
-                            >
-                              Posta / Zip <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_postal_zip"
-                              name="c_diff_postal_zip"
-                            />
-                          </div>
-                        </div>
-                        <div className="form-group row mb-5">
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_email_address"
-                              className="text-black"
-                            >
-                              Email Address{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_email_address"
-                              name="c_diff_email_address"
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <label
-                              htmlFor="c_diff_phone"
-                              className="text-black"
-                            >
-                              Phone <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="c_diff_phone"
-                              name="c_diff_phone"
-                              placeholder="Phone Number"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                
                   <div className="form-group">
                     <label htmlFor="c_order_notes" className="text-black">
                       Order Notes
@@ -498,41 +349,56 @@ function Checkout() {
                             <tr key={item.id}>
                               <td>
                                 {item.productName}
-                                <strong className="mx-2">x</strong>{item.quantity}
+                                <strong className="mx-2">x</strong>
+                                {item.quantity}
                               </td>
-                              <td>${item.quantity*item.price}</td>
+                              <td>${item.quantity * item.price}</td>
                             </tr>
                           ))}
-                          
+
                           <tr>
-                         
                             <td className="text-black font-weight-bold">
-                               <strong>Cart Subtotal</strong>
+                              <strong>Cart Subtotal</strong>
                             </td>
-                             <td className="text-black">${items.reduce((total, item)=>total+(item.price*item.quantity),0)}</td>
+                            <td className="text-black">
+                              $
+                              {items.reduce(
+                                (total, item) =>
+                                  total + item.price * item.quantity,
+                                0
+                              )}
+                            </td>
                           </tr>
                           <tr>
                             <td className="text-black font-weight-bold">
-                               <strong>Order Total</strong>
+                              <strong>Order Total</strong>
                             </td>
                             <td className="text-black font-weight-bold">
-                              <strong>${items.reduce((total, item)=>total+(item.price*item.quantity),0)}</strong>
+                              <strong>
+                                $
+                                {items.reduce(
+                                  (total, item) =>
+                                    total + item.price * item.quantity,
+                                  0
+                                )}
+                              </strong>
                             </td>
                           </tr>
                         </tbody>
                       </table>
                       <div className="border p-3 mb-3">
                         <h3 className="h6 mb-0">
-                          <a
-                            className="d-block"
+                          <button
+                            className="btn btn-success"
                             data-toggle="collapse"
-                            href="#collapsebank"
+                            type="submit"
+                            onClick={handleSubmit}
                             role="button"
                             aria-expanded="false"
                             aria-controls="collapsebank"
                           >
-                            Direct Bank Transfer
-                          </a>
+                            Cash on delivery
+                          </button>
                         </h3>
                         <div className="collapse" id="collapsebank">
                           <div className="py-2">
@@ -545,30 +411,7 @@ function Checkout() {
                           </div>
                         </div>
                       </div>
-                      <div className="border p-3 mb-3">
-                        <h3 className="h6 mb-0">
-                          <a
-                            className="d-block"
-                            data-toggle="collapse"
-                            href="#collapsecheque"
-                            role="button"
-                            aria-expanded="false"
-                            aria-controls="collapsecheque"
-                          >
-                            Cheque Payment
-                          </a>
-                        </h3>
-                        <div className="collapse" id="collapsecheque">
-                          <div className="py-2">
-                            <p className="mb-0">
-                              Make your payment directly into our bank account.
-                              Please use your Order ID as the payment reference.
-                              Your order won’t be shipped until the funds have
-                              cleared in our account.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+
                       <div className="border p-3 mb-5">
                         <h3 className="h6 mb-0">
                           <a
@@ -579,7 +422,7 @@ function Checkout() {
                             aria-expanded="false"
                             aria-controls="collapsepaypal"
                           >
-                            Paypal
+                            Stripe
                           </a>
                         </h3>
                         <div className="collapse" id="collapsepaypal">
@@ -595,9 +438,9 @@ function Checkout() {
                       </div>
                       <div className="form-group">
                         <button
+                          type="submit"
                           className="btn btn-primary btn-lg py-3 btn-block"
-                          // onclick={navigate(`/Thankyou`)}
-                        >
+                          onClick={handlePayment}                        >
                           Place Order
                         </button>
                       </div>
@@ -606,7 +449,6 @@ function Checkout() {
                 </div>
               </div>
             </div>
-            {/* </form> */}
           </div>
         </form>
       </div>

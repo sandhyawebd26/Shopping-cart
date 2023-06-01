@@ -51,12 +51,12 @@ const checkoutSchema = new mongoose.Schema(
             type: Number,
             required: false
         },
-    //     cartId:[{
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: "Cart",
-    //         required: true
-    //     }
-    // ]
+        cartId:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Cart",
+            required: true
+        }
+    ]
 
     }
 )

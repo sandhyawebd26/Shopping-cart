@@ -54,7 +54,7 @@ const postCatController = async (req, res) => {
     const { id } = req.params; // Get the category ID from the URL path
   
     try {
-      const category = await Category.findById(id);
+      const category = await Category.findById(id).populate("productId");
       if (!category) {
         return res.status(404).json({
           success: false,

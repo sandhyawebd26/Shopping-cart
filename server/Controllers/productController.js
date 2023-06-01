@@ -38,8 +38,6 @@ const getProductByIdController = async (req, res) => {
     }
   };
 
-  
-
 module.exports = {
   postProductController,
   getAllProductController,

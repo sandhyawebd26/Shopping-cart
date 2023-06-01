@@ -9,6 +9,8 @@ const cartRoute=require('./Routes/cartRoute');
 const checkoutRoute = require('./Routes/checkoutRoute');
 const authRoute= require('./Routes/authRoute');
 const { error } = require("console");
+const paymentRoute=require('./Routes/paymentRoute');
+
 
 
 connectDB();
@@ -29,6 +31,9 @@ app.use("/api", cartRoute);
 app.use("/api", checkoutRoute);
 
 app.use("/api", authRoute);
+
+//payment route
+app.use("/api", paymentRoute);
 
 
 app.listen(4500, () => {
